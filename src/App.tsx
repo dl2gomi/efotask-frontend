@@ -65,7 +65,7 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <>
-    <TelegramWebAppCheck />
+    {/* <TelegramWebAppCheck /> */}
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">

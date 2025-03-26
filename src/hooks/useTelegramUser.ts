@@ -13,7 +13,7 @@ const useTelegramUser = () => {
         setUserId(user.user.id); // Set user ID from Web App data
       }
     }
-  }, []);
+  }, [(window as any).Telegram]);
 
   return userId;
 };
