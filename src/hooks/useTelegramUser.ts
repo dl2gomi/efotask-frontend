@@ -29,9 +29,9 @@ const useTelegramUser = () => {
     // Try immediately
     checkTelegramUser();
 
-    // Keep checking every 100ms if Telegram is not available yet
+    // Keep checking every 3000ms if Telegram is not available yet
     if (!(window as any).Telegram?.WebApp) {
-      interval = setInterval(checkTelegramUser, 100);
+      interval = setInterval(checkTelegramUser, 3000);
     }
 
     return () => {
