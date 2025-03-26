@@ -9,6 +9,8 @@ const useTelegramUser = () => {
       webApp.ready();
 
       const user = webApp.initDataUnsafe; // User data from Telegram Web App
+      alert(user);
+      console.log(user);
       if (user) {
         setUserId(user.user.id); // Set user ID from Web App data
       }
