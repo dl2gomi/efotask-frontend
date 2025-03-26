@@ -4,10 +4,11 @@ const useTelegramUser = (): any => {
   const [userInfo, setUserInfo] = useState<any>(null);
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout | undefined;
+
     const checkTelegramSDK = () => {
       if ((window as any).Telegram && (window as any).Telegram.WebApp) {
         const userData = (window as any).Telegram.WebApp.initDataUnsafe;
-        console.log(userData);
         setUserInfo(userData);
 
         // Clear the interval once the user info is successfully loaded
@@ -19,7 +20,7 @@ const useTelegramUser = (): any => {
     checkTelegramSDK();
 
     // Check periodically every second
-    const intervalId = setInterval(checkTelegramSDK, 1000);
+    intervalId = setInterval(checkTelegramSDK, 1000);
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
