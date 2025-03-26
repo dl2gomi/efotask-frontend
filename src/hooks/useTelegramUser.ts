@@ -7,21 +7,19 @@ const useTelegramUser = (): any => {
     const checkTelegramSDK = () => {
       if ((window as any).Telegram && (window as any).Telegram.WebApp) {
         const userData = (window as any).Telegram.WebApp.initDataUnsafe;
-        setUserInfo({
-          id: userData.user.id,
-          username: userData.user.username || null,
-        });
+        console.log(userData);
+        setUserInfo(userData);
+
+        // Clear the interval once the user info is successfully loaded
         clearInterval(intervalId);
       }
     };
 
-    // Initial check for the SDK availability
+    // Initial check immediately
     checkTelegramSDK();
 
-    // Check periodically until the SDK is available
-    const intervalId = setInterval(() => {
-      checkTelegramSDK();
-    }, 1000); // Check every second
+    // Check periodically every second
+    const intervalId = setInterval(checkTelegramSDK, 1000);
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
