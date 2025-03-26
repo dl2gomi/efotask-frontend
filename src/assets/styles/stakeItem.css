@@ -1,0 +1,20 @@
+.stake-item-chain {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  width: 50%;
+  padding: 5%;
+  z-index: 100;
+  background-color: white;
+}
+.stake-item-logo {
+  position: relative;
+}
+.stake-item-label {
+  margin-bottom: 0.3rem;
+}
+.stake-item {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 0.15rem;
+}

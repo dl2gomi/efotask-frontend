@@ -1,0 +1,7 @@
+{
+  "name": "efotask-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

@@ -1,0 +1,7 @@
+ion-list ion-item {
+  border-bottom: 1px solid #333333;
+  margin: 0 0.5rem;
+}
+ion-list ion-item:last-child {
+  border-bottom: none;
+}

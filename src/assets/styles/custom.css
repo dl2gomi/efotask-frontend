@@ -1,0 +1,33 @@
+.ion-card-task {
+  --background: linear-gradient(30deg, #f5d836, #e27f0e);
+}
+
+.text-white {
+  color: white !important;
+}
+
+ion-card {
+  margin: 0.25rem;
+}
+
+ion-note {
+  display: block;
+}
+
+.tab-header {
+  background: linear-gradient(180deg, #000c, #000a, #0008, #0006, #0004, #0002, #0000) !important;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+  box-shadow: none;
+  border-bottom: none;
+}
+
+.button-with-light-text {
+  --color: var(--ion-color-light) !important;
+}
+
+.toolbar-hidden {
+  transform: translateY(-100%);
+  transition: transform 0.5s ease-in-out;
+}
