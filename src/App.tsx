@@ -59,25 +59,29 @@ import '@ionic/react/css/palettes/dark.always.css';
 import './theme/variables.css';
 import './assets/styles/custom.css';
 import { PaneMenu } from './components';
+import { TelegramWebAppCheck } from './helpers';
 
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonSplitPane contentId="main">
-        <PaneMenu />
-        <IonRouterOutlet id="main">
-          <Route path="/tabs" render={() => <MainTabs />} />
-          <Route path="/login" render={() => <LoginPage />} />
-          <Route path="/signup" render={() => <SignupPage />} />
-          <Route exact path="/">
-            <Redirect to="/tabs/home" />
-          </Route>
-        </IonRouterOutlet>
-      </IonSplitPane>
-    </IonReactRouter>
-  </IonApp>
+  <>
+    <TelegramWebAppCheck />
+    <IonApp>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <PaneMenu />
+          <IonRouterOutlet id="main">
+            <Route path="/tabs" render={() => <MainTabs />} />
+            <Route path="/login" render={() => <LoginPage />} />
+            <Route path="/signup" render={() => <SignupPage />} />
+            <Route exact path="/">
+              <Redirect to="/tabs/home" />
+            </Route>
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </IonApp>
+  </>
 );
 
 export default App;
