@@ -7,6 +7,7 @@ const useTelegramUser = () => {
     let interval: NodeJS.Timeout | null = null;
 
     const checkTelegramUser = () => {
+      alert(JSON.stringify((window as any).Telegram));
       if ((window as any).Telegram?.WebApp) {
         const webApp = (window as any).Telegram.WebApp;
         webApp.ready(); // Ensure WebApp is ready
