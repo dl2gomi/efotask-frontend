@@ -61,15 +61,20 @@ import './assets/styles/custom.css';
 import { PaneMenu } from './components';
 import { useTelegramUser } from './hooks';
 import { SpinnerCircular } from 'spinners-react';
+import { useEffect } from 'react';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const userId = useTelegramUser();
+  const user = useTelegramUser();
+
+  useEffect(() => {
+    alert(JSON.stringify(user));
+  }, [user]);
 
   return (
     <>
-      {userId && (
+      {user && (
         <IonApp>
           <IonReactRouter>
             <IonSplitPane contentId="main">
@@ -86,7 +91,7 @@ const App: React.FC = () => {
           </IonReactRouter>
         </IonApp>
       )}
-      {!userId && (
+      {!user && (
         <div
           style={{
             height: '100vh',
