@@ -70,7 +70,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      {user.user && (
+      {user?.user && (
         <IonApp>
           <IonReactRouter>
             <IonSplitPane contentId="main">
@@ -87,7 +87,7 @@ const App: React.FC = () => {
           </IonReactRouter>
         </IonApp>
       )}
-      {!user.user && (
+      {!user?.user && (
         <div
           style={{
             height: '100vh',
