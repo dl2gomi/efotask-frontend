@@ -1,47 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const useTelegramUser = () => {
-  const [userId, setUserId] = useState<number | null>(null);
+const useTelegramUser = (): any => {
+  const [userInfo, setUserInfo] = useState<any>(null);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-
-    const checkTelegramUser = () => {
-      alert(JSON.stringify((window as any).Telegram));
-      if ((window as any).Telegram?.WebApp) {
-        const webApp = (window as any).Telegram.WebApp;
-        webApp.ready(); // Ensure WebApp is ready
-
-        const user = webApp.initDataUnsafe?.user;
-        if (user && user.id) {
-          setUserId(user.id);
-        } else {
-          console.warn('Telegram user data is empty. Ensure you started the bot via a deep link.');
-        }
-
-        // Stop checking once Telegram is available
-        if (interval) {
-          clearInterval(interval);
-        }
+    const checkTelegramSDK = () => {
+      if ((window as any).Telegram && (window as any).Telegram.WebApp) {
+        const userData = (window as any).Telegram.WebApp.initDataUnsafe;
+        setUserInfo({
+          id: userData.user.id,
+          username: userData.user.username || null,
+        });
+        clearInterval(intervalId);
       }
     };
 
-    // Try immediately
-    checkTelegramUser();
+    // Initial check for the SDK availability
+    checkTelegramSDK();
 
-    // Keep checking every 3000ms if Telegram is not available yet
-    if (!(window as any).Telegram?.WebApp) {
-      interval = setInterval(checkTelegramUser, 3000);
-    }
+    // Check periodically until the SDK is available
+    const intervalId = setInterval(() => {
+      checkTelegramSDK();
+    }, 1000); // Check every second
 
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, []);
+    // Cleanup the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures this effect only runs once
 
-  return userId;
+  return userInfo;
 };
 
 export default useTelegramUser;

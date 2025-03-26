@@ -59,7 +59,6 @@ import '@ionic/react/css/palettes/dark.always.css';
 import './theme/variables.css';
 import './assets/styles/custom.css';
 import { PaneMenu } from './components';
-import { TelegramWebAppCheck } from './helpers';
 import { useTelegramUser } from './hooks';
 import { SpinnerCircular } from 'spinners-react';
 
