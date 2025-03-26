@@ -61,6 +61,7 @@ import './assets/styles/custom.css';
 import { PaneMenu } from './components';
 import { TelegramWebAppCheck } from './helpers';
 import { useTelegramUser } from './hooks';
+import { SpinnerCircular } from 'spinners-react';
 
 setupIonicReact();
 
@@ -86,7 +87,22 @@ const App: React.FC = () => {
           </IonReactRouter>
         </IonApp>
       )}
-      {!userId && <div>Loading User information...</div>}
+      {!userId && (
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem' }}>
+            <SpinnerCircular color="#9032F0" />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>LOADING...</div>
+        </div>
+      )}
     </>
   );
 };
