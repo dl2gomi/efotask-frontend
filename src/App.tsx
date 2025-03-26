@@ -64,7 +64,7 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter basename="/app">
+    <IonReactRouter>
       <IonSplitPane contentId="main">
         <PaneMenu />
         <IonRouterOutlet id="main">
