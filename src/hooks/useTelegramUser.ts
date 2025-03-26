@@ -1,21 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useTelegramUser = () => {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    if ((window as any).Telegram && (window as any).Telegram.WebApp) {
-      const webApp = (window as any).Telegram.WebApp;
-      webApp.ready();
+    let interval: NodeJS.Timeout | null = null;
 
-      const user = webApp.initDataUnsafe; // User data from Telegram Web App
-      alert(user);
-      console.log(user);
-      if (user) {
-        setUserId(user.user.id); // Set user ID from Web App data
+    const checkTelegramUser = () => {
+      if ((window as any).Telegram?.WebApp) {
+        const webApp = (window as any).Telegram.WebApp;
+        webApp.ready(); // Ensure WebApp is ready
+
+        const user = webApp.initDataUnsafe?.user;
+        if (user && user.id) {
+          setUserId(user.id);
+        } else {
+          console.warn('Telegram user data is empty. Ensure you started the bot via a deep link.');
+        }
+
+        // Stop checking once Telegram is available
+        if (interval) {
+          clearInterval(interval);
+        }
       }
+    };
+
+    // Try immediately
+    checkTelegramUser();
+
+    // Keep checking every 100ms if Telegram is not available yet
+    if (!(window as any).Telegram?.WebApp) {
+      interval = setInterval(checkTelegramUser, 100);
     }
-  }, [(window as any).Telegram]);
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, []);
 
   return userId;
 };
