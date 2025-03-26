@@ -68,13 +68,9 @@ setupIonicReact();
 const App: React.FC = () => {
   const user = useTelegramUser();
 
-  useEffect(() => {
-    alert(JSON.stringify(user));
-  }, [user]);
-
   return (
     <>
-      {user && (
+      {user.user && (
         <IonApp>
           <IonReactRouter>
             <IonSplitPane contentId="main">
@@ -91,7 +87,7 @@ const App: React.FC = () => {
           </IonReactRouter>
         </IonApp>
       )}
-      {!user && (
+      {!user.user && (
         <div
           style={{
             height: '100vh',
