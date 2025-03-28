@@ -114,7 +114,7 @@ const StartedPage: React.FC = () => {
           {!roleLoading && (
             <>
               <IonRow>
-                <IonCol className="ion-text-center" style={{ padding: '0 1rem 0 2rem' }}>
+                <IonCol className="ion-text-center" style={{ padding: '0 1rem 0 1rem' }}>
                   <IonButton expand="block" fill="outline" id="earnerButton">
                     <div
                       style={{
@@ -151,7 +151,7 @@ const StartedPage: React.FC = () => {
                     ]}
                   ></IonAlert>
                 </IonCol>
-                <IonCol className="ion-text-center" style={{ padding: '0 2rem 0 1rem' }}>
+                <IonCol className="ion-text-center" style={{ padding: '0 1rem 0 1rem' }}>
                   <IonButton expand="block" fill="outline" id="advertiserButton">
                     <div
                       style={{
@@ -190,7 +190,7 @@ const StartedPage: React.FC = () => {
                 </IonCol>
               </IonRow>
               <IonRow>
-                <IonCol style={{ padding: '0 2rem' }}>
+                <IonCol style={{ padding: '0 1rem' }}>
                   <div style={{ lineHeight: '1.4rem', padding: '0.5rem 0' }}>
                     If you want to advertise your channel, you can select <IonText color="success">ADVERTISER</IonText>{' '}
                     role. You need to pay some funds to advertise in this bot.

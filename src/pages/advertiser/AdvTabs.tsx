@@ -11,9 +11,10 @@ import {
 } from '@ionic/react';
 import { HeaderMenu } from '../../components';
 import { Route, RouteComponentProps, useLocation } from 'react-router';
-import { grid, home, peopleSharp, person, rocket, wallet } from 'ionicons/icons';
+import { card, grid, home, peopleSharp, person, rocket, settings, wallet } from 'ionicons/icons';
 import { StakePage, HomePage, BalancePage, ProfilePage, DashboardPage, TaskListPage } from '..';
 import { withRole } from '../../helpers';
+import CreditPage from './CreditPage';
 
 const AdvTabs: React.FC = () => {
   const location = useLocation();
@@ -24,9 +25,9 @@ const AdvTabs: React.FC = () => {
         <IonRouterOutlet>
           <Route exact path="/advs/home" render={() => <HomePage />} />
           <Route exact path="/advs/tasks" render={() => <TaskListPage />} />
-          <Route exact path="/advs/rewards" render={() => <StakePage />} />
           <Route exact path="/advs/dashboard" render={() => <DashboardPage />} />
-          <Route exact path="/advs/refer" render={() => <ProfilePage />} />
+          <Route exact path="/advs/credits" render={() => <CreditPage />} />
+          <Route exact path="/advs/settings" render={() => <ProfilePage />} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="home" href="/advs/home" aria-label="Home">
@@ -34,17 +35,17 @@ const AdvTabs: React.FC = () => {
             <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tasks" href="/advs/tasks" aria-label="Tasks">
-            <IonIcon aria-hidden="true" icon={wallet} />
+            <IonIcon aria-hidden="true" icon={rocket} />
             <IonLabel>Tasks</IonLabel>
           </IonTabButton>
           <IonTabButton tab="dashboard" href="/advs/dashboard" aria-label="Dashboard"></IonTabButton>
-          <IonTabButton tab="rewards" href="/tabs/rewards" aria-label="Rewards">
-            <IonIcon aria-hidden="true" icon={person} />
-            <IonLabel>Rewards</IonLabel>
+          <IonTabButton tab="credits" href="/advs/credits" aria-label="Credits">
+            <IonIcon aria-hidden="true" icon={card} />
+            <IonLabel>Credits</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="refer" href="/advs/refer" aria-label="Refer">
-            <IonIcon aria-hidden="true" icon={rocket} />
-            <IonLabel>Refer</IonLabel>
+          <IonTabButton tab="settings" href="/advs/settings" aria-label="Settings">
+            <IonIcon aria-hidden="true" icon={settings} />
+            <IonLabel>Settings</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
