@@ -8,7 +8,10 @@ const useTelegramUser = (): any => {
 
     const checkTelegramSDK = () => {
       if ((window as any).Telegram && (window as any).Telegram.WebApp) {
-        const userData = (window as any).Telegram.WebApp.initDataUnsafe;
+        const userData =
+          process.env.NODE_ENV === 'development'
+            ? (window as any).Telegram.WebApp.mockData
+            : (window as any).Telegram.WebApp.initDataUnsafe;
         setUserInfo(userData);
 
         // Clear the interval once the user info is successfully loaded

@@ -1,32 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
-import {
-  IonApp,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonSplitPane,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-} from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import {
-  gift,
-  home,
-  settingsSharp,
-  peopleSharp,
-  wallet,
-  add,
-  rocketOutline,
-  rocket,
-  rocketSharp,
-  personCircle,
-  person,
-} from 'ionicons/icons';
-import { LoginPage, MainTabs, SignupPage } from './pages';
+import { LoginPage, MainTabs, SignupPage, StartedPage, AdvTabs } from './pages';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -68,6 +43,26 @@ setupIonicReact();
 const App: React.FC = () => {
   const user = useTelegramUser();
 
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      (window as any).Telegram.WebApp.mockData = {
+        query_id: 'AAGmFXQLAwAAAKYVdAuYqceg',
+        user: {
+          id: 6634608038,
+          first_name: 'D',
+          last_name: 'L',
+          username: 'dlgomi',
+          language_code: 'en',
+          allows_write_to_pm: true,
+          photo_url: 'https://t.me/i/userpic/320/Hk6Rf53N8Oos-IaV0A5gMLBQN3ECGg-krzsKN9K-kWhbjUD2vnmaiHVcxNiKAnAi.svg',
+        },
+        auth_date: '1743015912',
+        signature: 'Vdjmb6l26d6Wg78Vc8y3yPXZUhwK3YSf9ZMn_Wc4A_W4Z961ujg17EI142EUjSXHqEGK6wd9OwMyIWQRjXMGAA',
+        hash: '5fba3c5bee57842f5b897733fef6b098a782a8208c36c697e2847d87b45905aa',
+      };
+    }
+  }, []);
+
   return (
     <>
       {user?.user && (
@@ -77,7 +72,9 @@ const App: React.FC = () => {
               <PaneMenu />
               <IonRouterOutlet id="main">
                 <Route path="/tabs" render={() => <MainTabs />} />
+                <Route path="/advs" render={() => <AdvTabs />} />
                 <Route path="/login" render={() => <LoginPage />} />
+                <Route path="/getstarted" render={() => <StartedPage />} />
                 <Route path="/signup" render={() => <SignupPage />} />
                 <Route exact path="/">
                   <Redirect to="/tabs/home" />

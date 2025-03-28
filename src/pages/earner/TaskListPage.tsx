@@ -34,12 +34,35 @@ import {
   IonToggle,
   IonToolbar,
 } from '@ionic/react';
-import { PortfolioCard, TaskItem } from '../components';
+import { PortfolioCard, TaskItem } from '../../components';
 import { card, logoStackoverflow, wallet } from 'ionicons/icons';
-import headerImg from '../assets/images/balance-header.jpg';
-import '../assets/styles/balancePage.css';
+import { useApiRequest, useTelegramUser } from '../../hooks';
+import { useEffect } from 'react';
+import { taskListUrl } from '../../consts/paths';
+
+import headerImg from '../../assets/images/balance-header.jpg';
+import '../../assets/styles/balancePage.css';
 
 const TaskListPage: React.FC = () => {
+  const user = useTelegramUser();
+
+  const {
+    response: listResponse,
+    error: listError,
+    loading: listLoading,
+    sendRequest: sendListRequest,
+  } = useApiRequest({
+    endpoint: taskListUrl,
+    method: 'GET',
+    headers: {
+      'X-Telegram-Id': user?.user?.id,
+    },
+  });
+
+  useEffect(() => {
+    user && sendListRequest();
+  }, [user]);
+
   return (
     <IonPage>
       {/* <IonHeader className="tab-header">
