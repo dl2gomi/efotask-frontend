@@ -1,6 +1,7 @@
 import { createAppKit } from '@reown/appkit/react';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
 import { mainnet, defineChain, sepolia } from '@reown/appkit/networks';
+import { ReactNode } from 'react';
 
 const projectId = import.meta.env['VITE_REOWN_PROJECT_ID'];
 if (!projectId) {
@@ -48,7 +49,11 @@ createAppKit({
   },
 });
 
-const ContextProvider = ({ children }) => {
+interface ContextProviderProps {
+  children: ReactNode;
+}
+
+const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   return <>{children}</>;
 };
 
