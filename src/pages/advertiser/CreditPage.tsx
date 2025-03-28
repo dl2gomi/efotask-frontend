@@ -360,7 +360,7 @@ const CreditPage: React.FC = () => {
                             type="number"
                             value={newAmount}
                             onIonInput={(e) => setNewAmount(parseFloat((e.target.value ?? '').toString()))}
-                            style={{ paddingLeft: '1rem', paddingRight: '1rem', 'min-height': '3rem' }}
+                            style={{ paddingLeft: '1rem', paddingRight: '1rem', minHeight: '3rem' }}
                           ></IonInput>
                         </IonCol>
                       </IonRow>

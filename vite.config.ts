@@ -6,14 +6,33 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), legacy()],
+  plugins: [
+    react(),
+    legacy({
+      renderLegacyChunks: false,
+    }),
+  ],
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
   },
+  optimizeDeps: {
+    // 👈 optimizedeps
+    esbuildOptions: {
+      target: 'esnext',
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis',
+      },
+      supported: {
+        bigint: true,
+      },
+    },
+  },
   base: '/',
   build: {
+    target: 'esnext',
     chunkSizeWarningLimit: 1000, // Prevents warnings for large chunks
     rollupOptions: {
       output: {
