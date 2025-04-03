@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApiRequest, useTelegramUser } from '../hooks';
 import { useIonRouter, useIonToast } from '@ionic/react';
 import { userInfoUrl } from '../consts/paths';
@@ -6,6 +6,7 @@ import { closeCircle } from 'ionicons/icons';
 
 interface WithRoleProps {
   children?: React.ReactNode;
+  userInfo?: any;
 }
 
 export const withRole = (WrappedComponent: React.FC<WithRoleProps>, role: string | null) => {
@@ -13,6 +14,7 @@ export const withRole = (WrappedComponent: React.FC<WithRoleProps>, role: string
     const user = useTelegramUser();
     const router = useIonRouter();
     const [toast] = useIonToast();
+    const [userInfo, setUserInfo] = useState<any>(null);
 
     const {
       response: meReponse,
@@ -28,11 +30,13 @@ export const withRole = (WrappedComponent: React.FC<WithRoleProps>, role: string
     });
 
     useEffect(() => {
-      user && sendMeRequest();
-    }, [user]);
+      user && !userInfo && sendMeRequest();
+    }, [user, userInfo]);
 
     useEffect(() => {
       if (meReponse && meReponse.data?.me) {
+        setUserInfo(meReponse.data.me);
+
         if (meReponse.data.me.role !== role) {
           if (meReponse.data.me.role === null) {
             router.push('/getstarted');
@@ -49,7 +53,7 @@ export const withRole = (WrappedComponent: React.FC<WithRoleProps>, role: string
       meError && toast({ message: meError.message, color: 'danger', icon: closeCircle });
     }, [meError]);
 
-    return <WrappedComponent {...props} />;
+    return <WrappedComponent {...props} userInfo={userInfo} />;
   };
 
   return Wrapper;

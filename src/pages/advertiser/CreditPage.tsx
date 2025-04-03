@@ -26,199 +26,122 @@ import {
   IonText,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from '@ionic/react';
-import { add, checkmarkCircle, logoStackoverflow, wallet, close as closeIcon } from 'ionicons/icons';
-import { useState } from 'react';
+import { add, checkmarkCircle, logoStackoverflow, wallet, close as closeIcon, closeCircle } from 'ionicons/icons';
+import { useEffect, useState } from 'react';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { withRole } from '../../helpers';
 import headerImg from '../../assets/images/staking-header.jpg';
 import { PortfolioCard, StakeItem, PlanItem } from '../../components';
-
-const activeStakings = [
-  {
-    id: 12,
-    amount: '200',
-    started_at: new Date(2025, 1, 28, 0, 0, 0),
-    ended_at: new Date(2025, 2, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO',
-      percent: 10,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 13,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 14,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 15,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 16,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 17,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 18,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 19,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 20,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 21,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 22,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-  {
-    id: 23,
-    amount: '500',
-    started_at: new Date(2025, 2, 28, 0, 0, 0),
-    ended_at: new Date(2025, 3, 28, 0, 0, 0),
-    plan: {
-      name: 'PRO Ultra',
-      percent: 20,
-    },
-    token: 'USDT',
-    chain: 'erc20',
-  },
-];
-
-const stakingPlans = [
-  {
-    id: 1,
-    name: 'Starter',
-    percent: 5,
-    period: 15,
-    minimum: 100,
-  },
-  {
-    id: 2,
-    name: 'Advanced',
-    percent: 8,
-    period: 20,
-    minimum: 300,
-  },
-  {
-    id: 3,
-    name: 'PRO',
-    percent: 12,
-    period: 30,
-    minimum: 500,
-  },
-  {
-    id: 4,
-    name: 'PRO ULTRA',
-    percent: 20,
-    period: 30,
-    minimum: 1000,
-  },
-];
+import { useVault, useERC20, useApiRequest, useTelegramUser } from '../../hooks';
+import { parseUnits } from 'ethers';
+import { creditsHistoryUrl, creditsInfoUrl, depositAckUrl } from '../../consts/paths';
+import { SpinnerCircular } from 'spinners-react';
+import notaskImg from '../../assets/images/no-task.svg';
+import HistoryItem from '../../components/HistoryItem';
 
 const CreditPage: React.FC = () => {
+  const [toast] = useIonToast();
+
   const [isOpen, setIsOpen] = useState(false);
   const [planId, setPlanId] = useState(0);
+  const [creditInfo, setCreditInfo] = useState({
+    current: 0,
+    deposited: 0,
+    used: 0,
+  });
   const [newAmount, setNewAmount] = useState(0);
   const [newToken, setNewToken] = useState(null);
+  const [history, setHistory] = useState([]);
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
+
+  const user = useTelegramUser();
+  const { contract: vaultContract, deposit } = useVault();
+  const { approve, getBalance } = useERC20(import.meta.env.VITE_ERC20_USDT_ADDRESS);
+
+  const {
+    response: depositResponse,
+    error: depositError,
+    loading: depositLoading,
+    sendRequest: sendDepositRequest,
+  } = useApiRequest({
+    endpoint: depositAckUrl,
+    method: 'POST',
+    headers: {
+      'X-Telegram-Id': user?.user?.id,
+    },
+  });
+
+  const {
+    response: infoResponse,
+    error: infoError,
+    loading: infoLoading,
+    sendRequest: sendInfoRequest,
+  } = useApiRequest({
+    endpoint: creditsInfoUrl,
+    method: 'GET',
+    headers: {
+      'X-Telegram-Id': user?.user?.id,
+    },
+  });
+
+  const {
+    response: historyResponse,
+    error: historyError,
+    loading: historyLoading,
+    sendRequest: sendHistoryRequest,
+  } = useApiRequest({
+    endpoint: creditsHistoryUrl,
+    method: 'GET',
+    headers: {
+      'X-Telegram-Id': user?.user?.id,
+    },
+  });
+
+  useEffect(() => {
+    user?.user?.id && sendInfoRequest();
+    user?.user?.id && sendHistoryRequest();
+  }, [user]);
+
+  useEffect(() => {
+    if (depositResponse) {
+      toast({ message: depositResponse.message, color: 'success', icon: checkmarkCircle, duration: 3000 });
+      setNewAmount(0);
+    }
+  }, [depositResponse]);
+
+  useEffect(() => {
+    if (depositError) {
+      toast({ message: depositError.message, color: 'danger', icon: closeCircle, duration: 3000 });
+      setNewAmount(0);
+    }
+  }, [depositError]);
+
+  useEffect(() => {
+    if (infoResponse) {
+      setCreditInfo(infoResponse.data);
+    }
+  }, [infoResponse]);
+
+  useEffect(() => {
+    if (infoError) {
+      toast({ message: infoError.message, color: 'danger', icon: closeCircle, duration: 3000 });
+    }
+  }, [infoError]);
+
+  useEffect(() => {
+    if (historyResponse) {
+      setHistory(historyResponse.data.history);
+    }
+  }, [historyResponse]);
+
+  useEffect(() => {
+    if (historyError) {
+      toast({ message: historyError.message, color: 'danger', icon: closeCircle, duration: 3000 });
+    }
+  }, [historyError]);
 
   return (
     <IonPage>
@@ -230,40 +153,52 @@ const CreditPage: React.FC = () => {
               <PortfolioCard
                 title="CREDITS"
                 category="current"
-                amount={2000}
+                amount={creditInfo.current}
                 subCategory1="total deposit"
-                subAmount1={1540}
+                subAmount1={creditInfo.deposited}
                 subCategory2="total used"
-                subAmount2={120}
+                subAmount2={creditInfo.used}
                 style={{ background: 'linear-gradient(90deg,rgba(13, 121, 88, 0.7) 0%,rgba(5, 128, 15, 0.7) 100%)' }}
+                loading={infoLoading}
               />
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol className="ion-margin-vertical ion-padding-horizontal">
               <IonText color="medium">
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Active Stakings</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Credits History</div>
               </IonText>
             </IonCol>
           </IonRow>
           {/* <IonList lines="none" inset> */}
           <IonGrid>
-            {activeStakings &&
-              activeStakings.map((st) => (
-                <IonRow key={st.id}>
-                  <IonCol>
-                    <StakeItem
-                      stake={st}
-                      tokenLogo="https://cryptologos.cc/logos/tether-usdt-logo.png?v=040"
-                      chainLogo="https://cryptologos.cc/logos/ethereum-eth-logo.png?v=040"
-                    />
+            {history &&
+              history.length > 0 &&
+              history.map((hist, i) => (
+                <IonRow key={i}>
+                  <IonCol style={{ padding: '2px' }}>
+                    <HistoryItem history={hist} />
                   </IonCol>
                 </IonRow>
               ))}
+            {(!history || history.length === 0) && (
+              <>
+                <IonRow style={{ paddingTop: '4rem' }}>
+                  <IonCol style={{ height: '8rem', textAlign: 'center' }}>
+                    <img src={notaskImg} alt="no tasks" style={{ objectFit: 'cover', height: '6rem' }} />
+                  </IonCol>
+                </IonRow>
+                <IonRow>
+                  <IonCol style={{ textAlign: 'center' }}>
+                    <IonText color="medium">No history yet</IonText>
+                  </IonCol>
+                </IonRow>
+              </>
+            )}
           </IonGrid>
           {/* </IonList> */}
         </IonGrid>
-        <IonFab slot="fixed" vertical="bottom" horizontal="end" style={{ right: '2rem' }}>
+        <IonFab slot="fixed" vertical="bottom" horizontal="end" style={{ right: '1rem' }}>
           <IonFabButton onClick={() => setIsOpen(true)}>
             <IonIcon icon={add} style={{ color: '#fff' }} />
           </IonFabButton>
@@ -300,7 +235,7 @@ const CreditPage: React.FC = () => {
                         <IonCol>
                           <IonButton style={{ color: 'white' }} expand="block" onClick={() => open()}>
                             <IonIcon icon={wallet} className="ion-padding-end" />
-                            Connect Wallet
+                            {isConnected ? `${address?.slice(0, 4)}...${address?.slice(-4)}` : 'Wallet Connect'}
                           </IonButton>
                         </IonCol>
                       </IonRow>
@@ -319,7 +254,7 @@ const CreditPage: React.FC = () => {
                     </IonCardHeader>
                     <IonCardContent className="ion-text-center">
                       <IonRow>
-                        <IonCol size="5">
+                        <IonCol>
                           <IonSelect
                             aria-label="Token"
                             interface="action-sheet"
@@ -329,13 +264,6 @@ const CreditPage: React.FC = () => {
                           >
                             <IonSelectOption value="ERC20">USDT ERC20</IonSelectOption>
                           </IonSelect>
-                        </IonCol>
-                        <IonCol
-                          size="7"
-                          className="ion-align-itmes-center ion-justify-content-end"
-                          style={{ display: 'flex' }}
-                        >
-                          <div style={{ alignSelf: 'center' }}>Current balance: 100</div>
                         </IonCol>
                       </IonRow>
                     </IonCardContent>
@@ -369,10 +297,38 @@ const CreditPage: React.FC = () => {
                           <IonButton
                             style={{ color: 'white' }}
                             expand="block"
-                            disabled={isNaN(newAmount) || !newAmount || !newToken}
+                            disabled={isNaN(newAmount) || !newAmount || !newToken || !isConnected || depositLoading}
+                            onClick={async () => {
+                              try {
+                                await approve(await vaultContract.getAddress(), newAmount.toString());
+                                const receipt = await deposit(newAmount.toString());
+                                await sendDepositRequest({ receipt, token: newToken, amount: newAmount });
+                              } catch (error: any) {
+                                toast({
+                                  message:
+                                    error.reason === 'rejected'
+                                      ? 'You rejected the transaction'
+                                      : `You don't have sufficient funds or something went wrong`,
+                                  color: 'danger',
+                                  icon: closeCircle,
+                                  duration: 2000,
+                                  animated: true,
+                                });
+                              }
+                            }}
                           >
-                            <IonIcon icon={checkmarkCircle} className="ion-padding-end" />
-                            Deposit
+                            {depositLoading && (
+                              <>
+                                <SpinnerCircular size={18} color="#fff" className="ion-margin-end" />
+                                Processing...
+                              </>
+                            )}
+                            {!depositLoading && (
+                              <>
+                                <IonIcon icon={checkmarkCircle} className="ion-padding-end" />
+                                Deposit
+                              </>
+                            )}
                           </IonButton>
                         </IonCol>
                       </IonRow>
@@ -388,4 +344,4 @@ const CreditPage: React.FC = () => {
   );
 };
 
-export default withRole(CreditPage, 'advertiser');
+export default CreditPage;

@@ -1,6 +1,6 @@
 {
-  "short_name": "Ionic App",
-  "name": "My Ionic App",
+  "short_name": "EFOTASK",
+  "name": "Earn from online tasks telegram bot",
   "icons": [
     {
       "src": "assets/icon/favicon.png",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonText } from '@ionic/react';
+import { IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonSkeletonText, IonText } from '@ionic/react';
 import '../assets/styles/PortfolioCard.css'; // Import custom styles
 
 interface PortfolioCardProps {
@@ -11,6 +11,7 @@ interface PortfolioCardProps {
   subCategory2?: string;
   subAmount2?: number;
   style?: React.CSSProperties;
+  loading?: boolean;
 }
 
 const PortfolioCard: React.FC<PortfolioCardProps> = ({
@@ -22,6 +23,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   subCategory2,
   subAmount2,
   style,
+  loading = false,
 }) => {
   return (
     <IonCard className="portfolio-card" style={{ ...style }}>
@@ -45,27 +47,55 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
           <IonRow>
             <IonCol>
               <IonText color="light">
-                <div style={{ fontSize: '2rem', lineHeight: '1.5rem' }}>{amount}</div>
+                {loading && (
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: '40%', fontSize: '2rem', lineHeight: '1.5rem', marginTop: 0, marginBottom: 0 }}
+                  />
+                )}
+                {!loading && (
+                  <div style={{ fontSize: '2rem', lineHeight: '1.5rem' }}>
+                    {new Intl.NumberFormat().format(amount!)}
+                  </div>
+                )}
               </IonText>
             </IonCol>
           </IonRow>
           <IonRow style={{ marginTop: '0.5rem' }}>
             <IonCol>
               <IonText style={{ color: '#bbb' }}>
-                <div style={{ fontSize: '0.7rem', lineHeight: '0.5rem' }}>{subCategory1}</div>
+                <div style={{ fontSize: '0.7rem', lineHeight: '0.5rem', padding: '0.4rem 0' }}>{subCategory1}</div>
               </IonText>
               <IonText>
-                <div style={{ fontSize: '1.5rem' }}>{subAmount1}</div>
+                {loading && (
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: '40%', fontSize: '1.5rem', lineHeight: '1.5rem', marginTop: 0, marginBottom: 0 }}
+                  />
+                )}
+                {!loading && (
+                  <div style={{ fontSize: '1.5rem', lineHeight: '1.5rem' }}>
+                    {new Intl.NumberFormat().format(subAmount1!)}
+                  </div>
+                )}
               </IonText>
             </IonCol>
             <IonCol>
               <IonText style={{ color: '#bbb' }}>
-                <div style={{ fontSize: '0.7rem', lineHeight: '0.5rem' }} color="medium">
-                  {subCategory2}
-                </div>
+                <div style={{ fontSize: '0.7rem', lineHeight: '0.5rem', padding: '0.4rem 0' }}>{subCategory2}</div>
               </IonText>
               <IonText>
-                <div style={{ fontSize: '1.5rem' }}>{subAmount2}</div>
+                {loading && (
+                  <IonSkeletonText
+                    animated={true}
+                    style={{ width: '40%', fontSize: '1.5rem', lineHeight: '1.5rem', marginTop: 0, marginBottom: 0 }}
+                  />
+                )}
+                {!loading && (
+                  <div style={{ fontSize: '1.5rem', lineHeight: '1.5rem' }}>
+                    {new Intl.NumberFormat().format(subAmount2!)}
+                  </div>
+                )}
               </IonText>
             </IonCol>
           </IonRow>

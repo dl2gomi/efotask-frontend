@@ -69,7 +69,7 @@ const App: React.FC = () => {
         <IonApp>
           <IonReactRouter>
             <IonSplitPane contentId="main">
-              <PaneMenu />
+              {/* <PaneMenu /> */}
               <IonRouterOutlet id="main">
                 <Route path="/tabs" render={() => <MainTabs />} />
                 <Route path="/advs" render={() => <AdvTabs />} />

@@ -13,7 +13,7 @@ interface UseApiRequestResponse<T extends { message?: string; data?: any; [key: 
   response: T | null;
   error: T | null;
   loading: boolean;
-  sendRequest: (dynData?: any, dynParams?: any) => void;
+  sendRequest: (dynData?: any, dynParams?: any, dynEndpoint?: string) => Promise<void>;
 }
 
 export const useApiRequest = <T extends { message?: string; data?: any; [key: string]: any }>({
@@ -27,12 +27,12 @@ export const useApiRequest = <T extends { message?: string; data?: any; [key: st
   const [error, setError] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const sendRequest = async (dynData = {}, dynParams = {}) => {
+  const sendRequest = async (dynData = {}, dynParams = {}, dynEndpoint = '') => {
     setLoading(true);
     setError(null);
 
     const config: AxiosRequestConfig = {
-      url: endpoint,
+      url: endpoint + '/' + dynEndpoint,
       method,
       headers,
       data: {
